@@ -48,6 +48,11 @@ library
     Data.Traversable.Sort.PairingHeap.BasicNat
     Data.Traversable.Sort.PairingHeap.IndexedPairingHeap
 
+  exposed-modules:
+    Data.Traversable.Sort.List
+    Data.Traversable.Sort.Seq
+    Data.Traversable.Sort.PQueue
+
   -- Modules included in this library but not exported.
   -- other-modules:
 
@@ -64,7 +69,7 @@ library
     , RoleAnnotations
 
   -- Other library packages from which modules are imported.
-  build-depends:       base >=4.8 && <4.10
+  build-depends:       base >=4.8 && <4.17, containers, pqueue
 
   -- Directories containing source files.
   hs-source-dirs: src, benchmarks
@@ -81,7 +86,7 @@ benchmark bench
 
     Build-Depends:
         base      >= 4.4     && < 5
-      , criterion >= 1.1.1.0 && < 1.2
-      , containers  >=0.5 && <0.6
+      , criterion >= 1.1.1.0 && < 1.6
+      , containers  >=0.5 && <0.7
       , random
       , sort-traversable

@@ -6,6 +6,10 @@ import qualified Data.Sequence as Seq
 import System.Random
 import Data.Foldable
 
+import qualified Data.Traversable.Sort.List as L
+import qualified Data.Traversable.Sort.Seq  as S
+import qualified Data.Traversable.Sort.PQueue  as P
+
 main = do
   g <- getStdGen
   let million = take 1000000 $ randoms g :: [Int]
@@ -37,22 +41,37 @@ main = do
         [ bgroup "list"
           [ bench "Data.List"  $ nf sort tenthousand
           , bench "HSTrav"     $ nf sortTraversable tenthousand
+          -- , bench "List"       $ nf L.sortTraversable tenthousand
+          , bench "Seq"        $ nf S.sortTraversable tenthousand
+          , bench "PQueue"     $ nf P.sortTraversable tenthousand
           ]
         , bgroup "sequence"
           [ bench "sort"           $ nf Seq.sort tenthousand'
           , bench "unstableSort"   $ nf Seq.unstableSort tenthousand'
           , bench "HSTrav"         $ nf sortTraversable tenthousand'
+          , bench "List"           $ nf L.sortTraversable tenthousand'
+          , bench "Seq"            $ nf S.sortTraversable tenthousand'
+          , bench "PQueue"         $ nf P.sortTraversable tenthousand'
           ]
         ]
+
+    -- List performs poorly for lists, as then its O(n^2) insertion sort
+    -- For sequence it's more of a merge sort, so it's ok-ish.
     , bgroup "100000"
         [ bgroup "list"
           [ bench "Data.List"  $ nf sort hundredthousand
           , bench "HSTrav"     $ nf sortTraversable hundredthousand
+          -- , bench "List"       $ nf L.sortTraversable hundredthousand
+          , bench "Seq"        $ nf S.sortTraversable hundredthousand
+          , bench "PQueue"     $ nf P.sortTraversable hundredthousand
           ]
         , bgroup "sequence"
           [ bench "sort"           $ nf Seq.sort hundredthousand'
           , bench "unstableSort"   $ nf Seq.unstableSort hundredthousand'
           , bench "HSTrav"         $ nf sortTraversable hundredthousand'
+          , bench "List"           $ nf L.sortTraversable hundredthousand'
+          , bench "Seq"            $ nf S.sortTraversable hundredthousand'
+          , bench "PQueue"         $ nf P.sortTraversable hundredthousand'
           ]
         ]
     , bgroup "1000000"
